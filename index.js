@@ -106,4 +106,4 @@ class PitchAndRollCard extends HTMLElement {
   }
 }
 
-customElements.define("pitch-roll-card", PitchAndRollCard);
+customElements.define("smartvan-io-inclinometer", PitchAndRollCard);
