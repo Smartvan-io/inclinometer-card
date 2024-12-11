@@ -14,3 +14,5 @@ type: custom:smartvan-io-inclinometer
 entity_pitch: sensor.smartvanio_inclinometer_pitch ## replace with your own entity
 entity_roll: sensor.smartvanio_inclinometer_roll ## replace with your own entity
 ```
+
+![](https://cdn.shopify.com/videos/c/o/v/208d260b84814833b93a061cd0b0278b.mov)
