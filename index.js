@@ -89,10 +89,10 @@ class PitchAndRollCard extends HTMLElement {
 
   setConfig(config) {
     if (!config.entity_pitch) {
-      throw new Error("You need to define an entity_x");
+      throw new Error("You need to define an entity_pitch");
     }
     if (!config.entity_roll) {
-      throw new Error("You need to define an entity_y");
+      throw new Error("You need to define an entity_roll");
     }
     this.config = config;
   }
