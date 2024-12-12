@@ -4,7 +4,7 @@
 A simple card to show the pitch and roll angle of your van using the angle data from a [SmartVan.io inclinometer module](https://smartvan.io/products/tilt-sensor-module) although it will any incline sensor by passing the appropriate pitch and roll entities to the card.
 
 
-<img src="https://raw.githubusercontent.com/Smartvan-io/inclinometer-card/refs/heads/main/preview.jpg" width="400">
+<img src="https://raw.githubusercontent.com/Smartvan-io/inclinometer-card/refs/heads/main/preview.jpg" width="400" />
 
 #### Setup
 Add a custom card to your dashboard using the following:
@@ -15,4 +15,4 @@ entity_pitch: sensor.smartvanio_inclinometer_pitch ## replace with your own enti
 entity_roll: sensor.smartvanio_inclinometer_roll ## replace with your own entity
 ```
 
-![](https://cdn.shopify.com/videos/c/o/v/208d260b84814833b93a061cd0b0278b.mov)
+<img src="https://raw.githubusercontent.com/Smartvan-io/inclinometer-card/refs/heads/main/inclinometer-card.gif" width="1200" />
