@@ -1,0 +1,7 @@
+*.db
+*.log*
+*.db*
+.storage
+*/node_modules/*/**
+**/node_modules
+node_modules
