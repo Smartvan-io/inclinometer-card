@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, PropertyValueMap } from "lit";
 import { property } from "lit/decorators.js";
-import { EntityConfig, fireEvent, HomeAssistant } from "custom-card-helpers";
+import { fireEvent, HomeAssistant } from "custom-card-helpers";
 import { Entity } from "src/types";
 
 interface ExtendedHomeAssistant extends HomeAssistant {
@@ -41,6 +41,11 @@ class SmartVanIOInclinometerDialog extends LitElement {
     }
 
     .wrapper {
+      display: flex;
+    }
+
+    .indicator {
+      margin-bottom: 32px;
       display: flex;
     }
 
@@ -94,6 +99,12 @@ class SmartVanIOInclinometerDialog extends LitElement {
     }
   }
 
+  protected firstUpdated(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    // this.addEventListener("close-dialog", () => this._closeDialog());
+  }
+
   render() {
     if (!this._entities) return html``;
 
@@ -123,6 +134,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
           label="Orientation"
           @closed=${(e: Event) => e.stopPropagation()}
           @selected=${(e: any) => this._setOrientation(e.target.value)}
+          .value=${this._getState(orientation)}
         >
           ${options.map(
             (option: string) =>
@@ -133,6 +145,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
         <div class="wrapper">
           <div style="flex: 50%; text-align: center;">
             <smartvan-io-inclinometer-indicator
+              class="indicator"
               .angle=${this._getState(adjusted_pitch_angle)}
               name="Pitch"
             ></smartvan-io-inclinometer-indicator>
@@ -165,6 +178,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
           </div>
           <div style="flex: 50%; text-align: center;">
             <smartvan-io-inclinometer-indicator
+              class="indicator"
               .angle=${this._getState(adjusted_roll_angle)}
               name="Roll"
             ></smartvan-io-inclinometer-indicator>
@@ -203,8 +217,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
 
   _closeDialog() {
     // this.dialogParams = null;
-    fireEvent(this, "dialog-closed", "smartvan-io-inclinometer-dialog");
-    this._entities = {};
+    // fireEvent(this, "dialog-closed", { dialog: this.localName });
   }
 
   _getState(entity: Entity) {

@@ -4,7 +4,6 @@ import { fireEvent, HomeAssistant } from "custom-card-helpers";
 import "./dialog";
 import "./indicator";
 import { Entity } from "src/types";
-const isLevel = (angle, tolerance = 1) => Math.abs(angle) <= tolerance;
 
 interface ExtendedHomeAssistant extends HomeAssistant {
   entities: Record<string, any>; // Adjust types based on your needs
@@ -82,6 +81,9 @@ class SmartVanIOInclinometerCard extends LitElement {
   `;
 
   public updated(): void {
+    if (!this.entities) {
+      return;
+    }
     this._pitchState = this._getState(this.entities.adjusted_pitch_angle);
     this._rollState = this._getState(this.entities.adjusted_roll_angle);
     this._isEnabled =
@@ -167,7 +169,7 @@ class SmartVanIOInclinometerCard extends LitElement {
       hass: this.hass,
       dialogParams: {
         config: this.config,
-        entities: this._getEntitiesForDevice(this.config.device),
+        entities: this.entities,
       },
     });
   }
@@ -177,10 +179,11 @@ class SmartVanIOInclinometerCard extends LitElement {
       return null;
     }
 
-    return Object.values(this.hass.devices).find(
-      (device: Object) =>
-        `${device}`.replace(/\s/, "_").replace(/-/g, "_") === deviceName
-    );
+    return Object.values(this.hass.devices).find((device: Object) => {
+      return (
+        `${device.name}`.replace(/\s/, "_").replace(/-/g, "_") === deviceName
+      );
+    });
   }
 
   _findEntitiesByDeviceId(deviceId: string) {
