@@ -10,12 +10,13 @@
         "node_modules/lit/*"
       ]
     },
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "lib": [
+      "ES2019",
+      "DOM"
+    ]
   },
   "include": [
     "./src"
   ],
-  "lib": [
-    "es2017"
-  ]
 }

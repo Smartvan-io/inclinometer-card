@@ -1,18 +1,9 @@
-import { LitElement, html, css, PropertyValueMap } from "lit";
+import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { fireEvent, HomeAssistant } from "custom-card-helpers";
+import { fireEvent } from "custom-card-helpers";
 import "./dialog";
 import "./indicator";
-import { Entity } from "src/types";
-
-interface ExtendedHomeAssistant extends HomeAssistant {
-  entities: Record<string, any>; // Adjust types based on your needs
-  devices: Record<string, any>; // Adjust types based on your needs
-}
-
-interface Config {
-  device: string;
-}
+import { Config, Device, Entity, ExtendedHomeAssistant } from "src/types";
 
 @customElement("smartvan-io-inclinometer")
 class SmartVanIOInclinometerCard extends LitElement {
@@ -106,10 +97,8 @@ class SmartVanIOInclinometerCard extends LitElement {
           <span slot="title">Pitch and Roll</span>
           <ha-icon-button
             slot="actionItems"
-            .label=${this.hass.localize(
-              "ui.dialogs.more_info_control.settings"
-            )}
-            @click=${this._openConfigDialog}
+            label="Config"
+            @click=${() => this._openConfigDialog()}
           >
             <ha-icon class="icon" icon="mdi:cog"></ha-icon>
           </ha-icon-button>
@@ -157,8 +146,9 @@ class SmartVanIOInclinometerCard extends LitElement {
 
   _toggleEntity(state: boolean) {
     const newState = !state ? "turn_on" : "turn_off";
+    console.log(this.entities.toggle_inclinometer.entity_id);
     this.hass.callService("homeassistant", newState, {
-      entity_id: this.config.entity_toggle,
+      entity_id: this.entities.toggle_inclinometer.entity_id,
     });
   }
 
@@ -179,7 +169,7 @@ class SmartVanIOInclinometerCard extends LitElement {
       return null;
     }
 
-    return Object.values(this.hass.devices).find((device: Object) => {
+    return Object.values(this.hass.devices).find((device: Device) => {
       return (
         `${device.name}`.replace(/\s/, "_").replace(/-/g, "_") === deviceName
       );
@@ -188,7 +178,7 @@ class SmartVanIOInclinometerCard extends LitElement {
 
   _findEntitiesByDeviceId(deviceId: string) {
     if (!this.hass) {
-      return {};
+      return [];
     }
 
     return Object.values(this.hass.entities).filter(

@@ -1,13 +1,8 @@
-import { LitElement, html, css, PropertyValueMap } from "lit";
-import { property } from "lit/decorators.js";
-import { fireEvent, HomeAssistant } from "custom-card-helpers";
-import { Entity } from "src/types";
+import { LitElement, html, css, PropertyValueMap, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { Entity, ExtendedHomeAssistant } from "src/types";
 
-interface ExtendedHomeAssistant extends HomeAssistant {
-  entities: Record<string, any>; // Adjust types based on your needs
-  devices: Record<string, any>; // Adjust types based on your needs
-}
-
+@customElement("smartvan-io-inclinometer")
 class SmartVanIOInclinometerDialog extends LitElement {
   @property({ attribute: false }) public hass!: ExtendedHomeAssistant;
   @property({ attribute: false }) public _entities!: {
@@ -25,6 +20,8 @@ class SmartVanIOInclinometerDialog extends LitElement {
     roll_adjustment_angle: Entity;
     toggle_inclinometer: Entity;
   };
+
+  @property({ attribute: false }) private _isOpen = false;
 
   static styles = css`
     @media all and (max-width: 450px), all and (max-height: 500px) {
@@ -91,6 +88,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
 
   public showDialog(params: any) {
     this._entities = params.entities;
+    this._isOpen = true;
 
     if (this._getState(this._entities.toggle_inclinometer) === "off") {
       this.hass.callService("homeassistant", "turn_on", {
@@ -99,14 +97,8 @@ class SmartVanIOInclinometerDialog extends LitElement {
     }
   }
 
-  protected firstUpdated(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
-  ): void {
-    // this.addEventListener("close-dialog", () => this._closeDialog());
-  }
-
   render() {
-    if (!this._entities) return html``;
+    if (!this._isOpen) return nothing;
 
     const {
       orientation,
@@ -124,10 +116,21 @@ class SmartVanIOInclinometerDialog extends LitElement {
       this.hass.states[orientation.entity_id!]?.attributes?.options || [];
 
     return html`
-      <ha-dialog open @closed=${this._closeDialog} hideActions=${true}>
-        <div>
-          <h2>Settings</h2>
-        </div>
+      <ha-dialog
+        open
+        @closed=${this.closeDialog}
+        scrimClickAction=${true}
+        escapeKeyAction
+        hideActions=${true}
+      >
+        <ha-dialog-header slot="heading">
+          <ha-icon-button
+            slot="navigationIcon"
+            dialogAction="cancel"
+            .label=${this.hass.localize("ui.dialogs.more_info_control.dismiss")}
+            icon="mdi:close"
+          ></ha-icon-button>
+        </ha-dialog-header>
 
         <ha-select
           class="orientation-select"
@@ -215,9 +218,8 @@ class SmartVanIOInclinometerDialog extends LitElement {
     `;
   }
 
-  _closeDialog() {
-    // this.dialogParams = null;
-    // fireEvent(this, "dialog-closed", { dialog: this.localName });
+  closeDialog() {
+    this._isOpen = false;
   }
 
   _getState(entity: Entity) {
@@ -243,11 +245,10 @@ class SmartVanIOInclinometerDialog extends LitElement {
       value,
     });
   }
-
-  _newConfig = { ...this.config }; // Clone the current config
 }
 
-customElements.define(
-  "smartvan-io-inclinometer-dialog",
-  SmartVanIOInclinometerDialog
-);
+declare global {
+  interface HTMLElementTagNameMap {
+    "smartvan-io-inclinometer-dialog": SmartVanIOInclinometerDialog;
+  }
+}
