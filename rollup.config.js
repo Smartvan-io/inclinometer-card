@@ -1,25 +1,17 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
-import babel from "@rollup/plugin-babel";
 import typescript from "@rollup/plugin-typescript";
 
 export default {
-  input: "src/inclinometer/index.ts",
+  input: "src/index.ts",
   output: {
-    file: "./inclinometer.js",
+    file: process.env.DESTINATION || "./index.js",
     sourcemap: true,
   },
   context: "this",
-  plugins: [
-    resolve(),
-    typescript(),
-    // babel({
-    //   babelHelpers: "bundled",
-    //   presets: [["@babel/preset-env", { targets: "defaults" }]],
-    //   plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
-    // }),
-    commonjs(),
-    terser(),
-  ],
+  plugins: [resolve(), typescript(), commonjs(), terser()],
+  onLog(level, log, handler) {
+    console.log(process.argv);
+  },
 };

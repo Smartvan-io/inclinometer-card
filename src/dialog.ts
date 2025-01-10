@@ -2,7 +2,7 @@ import { LitElement, html, css, PropertyValueMap, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Entity, ExtendedHomeAssistant } from "src/types";
 
-@customElement("smartvan-io-inclinometer")
+@customElement("smartvan-io-inclinometer-dialog")
 class SmartVanIOInclinometerDialog extends LitElement {
   @property({ attribute: false }) public hass!: ExtendedHomeAssistant;
   @property({ attribute: false }) public _entities!: {
