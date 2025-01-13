@@ -185,7 +185,7 @@ const lt=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       width: 100%;
       margin-bottom: 32px;
     }
-  `,t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"hass",void 0),t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"_entities",void 0),t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"_isOpen",void 0),gt=t([lt("smartvan-io-inclinometer")],gt);var mt=Object.freeze({__proto__:null});let ft=class extends rt{constructor(){super(),this.angle="",this.name=""}render(){return V`
+  `,t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"hass",void 0),t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"_entities",void 0),t([dt({attribute:!1}),e("design:type",Object)],gt.prototype,"_isOpen",void 0),gt=t([lt("smartvan-io-inclinometer-dialog")],gt);var mt=Object.freeze({__proto__:null});let ft=class extends rt{constructor(){super(),this.angle="",this.name=""}render(){return V`
       <div style="flex: 50%; text-align: center;">
         <h1>${Math.abs(Number(this.angle))}°</h1>
         <p>${this.name}</p>
