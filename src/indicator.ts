@@ -46,9 +46,12 @@ class SmartVanIOInclinometerLevelIndicator extends LitElement {
   }
 
   render() {
+    const angle = isNaN(Number(this.angle))
+      ? "-"
+      : `${Math.abs(Number(this.angle))}°`;
     return html`
       <div style="flex: 50%; text-align: center;">
-        <h1>${Math.abs(Number(this.angle))}°</h1>
+        <h1>${angle}</h1>
         <p>${this.name}</p>
         <div class="parent">
           <div

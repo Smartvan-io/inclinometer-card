@@ -1,6 +1,6 @@
 import { LitElement, html, css, PropertyValueMap, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Entity, ExtendedHomeAssistant } from "src/types";
+import { Device, Entity, ExtendedHomeAssistant } from "src/types";
 
 @customElement("smartvan-io-inclinometer-dialog")
 class SmartVanIOInclinometerDialog extends LitElement {
@@ -20,7 +20,6 @@ class SmartVanIOInclinometerDialog extends LitElement {
     roll_adjustment_angle: Entity;
     toggle_inclinometer: Entity;
   };
-
   @property({ attribute: false }) private _isOpen = false;
 
   static styles = css`
@@ -80,7 +79,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
       width: calc(100% - 8px);
     }
 
-    .orientation-select {
+    .full-width {
       width: 100%;
       margin-bottom: 32px;
     }
@@ -95,6 +94,38 @@ class SmartVanIOInclinometerDialog extends LitElement {
         entity_id: this._entities.toggle_inclinometer.entity_id,
       });
     }
+  }
+
+  closeDialog() {
+    this._isOpen = false;
+  }
+
+  _getState(entity: Entity) {
+    if (!entity) {
+      return "";
+    }
+
+    return this.hass.states[entity.entity_id!].state;
+  }
+
+  private _setOrientation(value: string) {
+    this.hass.callService("select", "select_option", {
+      entity_id: this._entities.orientation.entity_id,
+      option: value,
+    });
+  }
+
+  private _setCalibration(entity_id: string) {
+    this.hass.callService("button", "press", {
+      entity_id,
+    });
+  }
+
+  private _setValue(entity_id: string, value: string) {
+    this.hass.callService("number", "set_value", {
+      entity_id,
+      value,
+    });
   }
 
   render() {
@@ -113,7 +144,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
     } = this._entities;
 
     const options =
-      this.hass.states[orientation.entity_id!]?.attributes?.options || [];
+      this.hass.states[orientation?.entity_id!]?.attributes?.options || [];
 
     return html`
       <ha-dialog
@@ -133,7 +164,7 @@ class SmartVanIOInclinometerDialog extends LitElement {
         </ha-dialog-header>
 
         <ha-select
-          class="orientation-select"
+          class="full-width"
           label="Orientation"
           @closed=${(e: Event) => e.stopPropagation()}
           @selected=${(e: any) => this._setOrientation(e.target.value)}
@@ -216,34 +247,6 @@ class SmartVanIOInclinometerDialog extends LitElement {
         </div>
       </ha-dialog>
     `;
-  }
-
-  closeDialog() {
-    this._isOpen = false;
-  }
-
-  _getState(entity: Entity) {
-    return this.hass.states[entity.entity_id!].state;
-  }
-
-  private _setOrientation(value: string) {
-    this.hass.callService("select", "select_option", {
-      entity_id: this._entities.orientation.entity_id,
-      option: value,
-    });
-  }
-
-  private _setCalibration(entity_id: string) {
-    this.hass.callService("button", "press", {
-      entity_id,
-    });
-  }
-
-  private _setValue(entity_id: string, value: string) {
-    this.hass.callService("number", "set_value", {
-      entity_id,
-      value,
-    });
   }
 }
 

@@ -1,18 +1,15 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { fireEvent } from "custom-card-helpers";
+import { fireEvent, LovelaceCardEditor } from "custom-card-helpers";
 import "./dialog";
 import "./indicator";
+import "./editor";
 import { Config, Device, Entity, ExtendedHomeAssistant } from "src/types";
 
 @customElement("smartvan-io-inclinometer")
 class SmartVanIOInclinometerCard extends LitElement {
   @property({ attribute: false }) public hass!: ExtendedHomeAssistant;
-  @property({ attribute: false }) public config: {
-    device: string;
-  } = {
-    device: "",
-  };
+  @property({ attribute: false }) public config!: Config;
 
   @property({ attribute: false }) public entities!: {
     actual_pitch_angle: Entity;
@@ -29,10 +26,15 @@ class SmartVanIOInclinometerCard extends LitElement {
     roll_adjustment_angle: Entity;
     toggle_inclinometer: Entity;
   };
+  @property({ attribute: false }) private possibleDevices: Device[] = [];
 
   @state() private _pitchState = "";
   @state() private _rollState = "";
   @state() private _isEnabled: boolean = false;
+
+  static getConfigElement() {
+    return document.createElement("smartvan-io-inclinometer-editor");
+  }
 
   static styles = css`
     .wrapper {
@@ -72,9 +74,10 @@ class SmartVanIOInclinometerCard extends LitElement {
   `;
 
   public updated(): void {
-    if (!this.entities) {
+    if (!this.config.device || !this.entities) {
       return;
     }
+
     this._pitchState = this._getState(this.entities.adjusted_pitch_angle);
     this._rollState = this._getState(this.entities.adjusted_roll_angle);
     this._isEnabled =
@@ -122,6 +125,7 @@ class SmartVanIOInclinometerCard extends LitElement {
           <div class="floor"></div>
           <div class="content">
             <ha-control-button
+              .disabled=${!this.config.device}
               class="button ${this._isEnabled ? "active" : ""}"
               @click=${() => this._toggleEntity(this._isEnabled)}
               >${!this._isEnabled ? "Disabled" : "Enabled"}</ha-control-button
@@ -136,7 +140,6 @@ class SmartVanIOInclinometerCard extends LitElement {
     if (!config.device) {
       throw new Error("You need to define a smartvan.io inclinometer");
     }
-
     this.config = config;
   }
 
@@ -146,7 +149,6 @@ class SmartVanIOInclinometerCard extends LitElement {
 
   _toggleEntity(state: boolean) {
     const newState = !state ? "turn_on" : "turn_off";
-    console.log(this.entities.toggle_inclinometer.entity_id);
     this.hass.callService("homeassistant", newState, {
       entity_id: this.entities.toggle_inclinometer.entity_id,
     });
@@ -164,18 +166,6 @@ class SmartVanIOInclinometerCard extends LitElement {
     });
   }
 
-  _findDeviceByName(deviceName: string) {
-    if (!this.hass) {
-      return null;
-    }
-
-    return Object.values(this.hass.devices).find((device: Device) => {
-      return (
-        `${device.name}`.replace(/\s/, "_").replace(/-/g, "_") === deviceName
-      );
-    });
-  }
-
   _findEntitiesByDeviceId(deviceId: string) {
     if (!this.hass) {
       return [];
@@ -187,11 +177,14 @@ class SmartVanIOInclinometerCard extends LitElement {
   }
 
   _getEntitiesForDevice(device: string) {
-    const { id } = this._findDeviceByName(device) || {};
-    const entities = this._findEntitiesByDeviceId(id);
+    if (!device) {
+      return {};
+    }
+
+    const entities = this._findEntitiesByDeviceId(device);
 
     const entitiesObject = entities.reduce((acc: Object, cur: Entity) => {
-      const newKey = cur.entity_id!.replace(`${device}_`, "").split(".")[1];
+      const newKey = cur.name!.replace(/ /g, "_").toLowerCase();
 
       return {
         ...acc,
@@ -211,4 +204,14 @@ declare global {
   interface HTMLElementTagNameMap {
     "smartvan-io-inclinometer": SmartVanIOInclinometerCard;
   }
+}
+
+// Typically in your main card file, e.g. my-card.js
+if (window.customCards) {
+  window.customCards.push({
+    type: "smartvan-io-inclinometer",
+    name: "Smartvan.io inclinometer card",
+    description: "A purpose built card for Smartvan.io inclinometer modules",
+    preview: true,
+  });
 }
