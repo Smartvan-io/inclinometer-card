@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValueMap, nothing, css } from "lit";
+import { LitElement, html, nothing, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { fireEvent, LovelaceCardEditor } from "custom-card-helpers";
 import { Config, Device, ExtendedHomeAssistant } from "./types";

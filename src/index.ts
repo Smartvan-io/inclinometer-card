@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { fireEvent, LovelaceCardEditor } from "custom-card-helpers";
+import { fireEvent } from "custom-card-helpers";
 import "./dialog";
 import "./indicator";
 import "./editor";

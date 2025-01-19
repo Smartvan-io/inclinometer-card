@@ -1,6 +1,6 @@
-import { LitElement, html, css, PropertyValueMap, nothing } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Device, Entity, ExtendedHomeAssistant } from "src/types";
+import { Entity, ExtendedHomeAssistant } from "src/types";
 
 @customElement("smartvan-io-inclinometer-dialog")
 class SmartVanIOInclinometerDialog extends LitElement {
