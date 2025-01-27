@@ -3,6 +3,24 @@ import { customElement, property, state } from "lit/decorators.js";
 import { fireEvent, LovelaceCardEditor } from "custom-card-helpers";
 import { Config, Device, Entity, ExtendedHomeAssistant } from "./types";
 
+const options = [
+  {
+    text: "Flat",
+    value: "Option 1",
+  },
+  {
+    text: "Upright",
+    value: "Option 2",
+  },
+  {
+    text: "Upright (sideways)",
+    value: "Option 3",
+  },
+  {
+    text: "Flat (sideways)",
+    value: "Option 4",
+  },
+];
 @customElement("smartvan-io-inclinometer-editor")
 class SmartVanIOInclinometerCardEditor
   extends LitElement
@@ -39,6 +57,9 @@ class SmartVanIOInclinometerCardEditor
       width: 100%;
       margin-bottom: 10px;
     }
+    .mb {
+      margin-bottom: 32px;
+    }
     .input-group {
       display: flex;
       align-items: center;
@@ -46,12 +67,13 @@ class SmartVanIOInclinometerCardEditor
       justify-content: space-between;
     }
     .alert {
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
   `;
 
   // Lovelace will call setConfig with the current configuration
   public setConfig(config: Config): void {
+    this._entities = this._getEntitiesForDevice(config.device);
     this._config = { ...config };
   }
 
@@ -87,12 +109,13 @@ class SmartVanIOInclinometerCardEditor
 
     return html`
       <div class="card-config">
-        ${isUnavailable &&
-        html`<ha-alert alert-type="error" class="alert"
-          >Either the device is unavailable or not selected!</ha-alert
-        >`}
+        ${isUnavailable
+          ? html`<ha-alert alert-type="error" class="alert"
+              >Either the device is unavailable or not selected!</ha-alert
+            >`
+          : nothing}
         <ha-select
-          class="full-width-select"
+          class="full-width-select mb"
           label="Inclinometer"
           @closed=${(e: Event) => e.stopPropagation()}
           @selected=${(e: any) => this._setDevice(e.target.value)}
@@ -106,16 +129,23 @@ class SmartVanIOInclinometerCardEditor
           )}
         </ha-select>
 
+        <ha-alert alert-type="info" class="alert"
+          >Note, the settings below are stored on the device and will be applied
+          instantly!</ha-alert
+        >
+
         <ha-select
           class="full-width-select"
           label="Orientation"
           @closed=${(e: Event) => e.stopPropagation()}
           @selected=${(e: any) => this._setOrientation(e.target.value)}
-          .value=${this._config.orientation}
+          .value=${this._getState(this._entities.orientation)}
         >
-          ${["Option 1", "Option 2", "Option 3", "Option 4"].map(
-            (option: string) =>
-              html`<mwc-list-item .value=${option}> ${option} </mwc-list-item>`
+          ${options.map(
+            (option) =>
+              html`<mwc-list-item .value=${option.value}>
+                ${option.text}
+              </mwc-list-item>`
           )}
         </ha-select>
 
@@ -264,6 +294,8 @@ class SmartVanIOInclinometerCardEditor
   }
 
   private _setDevice(device: string) {
+    this._entities = this._getEntitiesForDevice(device);
+
     fireEvent(this, "config-changed", {
       config: {
         ...this._config,
@@ -272,12 +304,10 @@ class SmartVanIOInclinometerCardEditor
     });
   }
 
-  private _setOrientation(orientation: string) {
-    fireEvent(this, "config-changed", {
-      config: {
-        ...this._config,
-        orientation,
-      },
+  private _setOrientation(value: string) {
+    this.hass.callService("select", "select_option", {
+      entity_id: this._entities?.orientation?.entity_id,
+      option: value,
     });
   }
 
