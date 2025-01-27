@@ -1,7 +1,5 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { fireEvent } from "custom-card-helpers";
-import "./dialog";
 import "./indicator";
 import "./editor";
 import { Config, Device, Entity, ExtendedHomeAssistant } from "src/types";
@@ -94,30 +92,27 @@ class SmartVanIOInclinometerCard extends LitElement {
     const pitchAngle = parseFloat(this._pitchState);
     const rollAngle = parseFloat(this._rollState);
 
+    console.log(this.hass);
+
     return html`
       <ha-card>
         <ha-dialog-header>
           <span slot="title">Pitch and Roll</span>
-          <ha-icon-button
-            slot="actionItems"
-            label="Config"
-            @click=${() => this._openConfigDialog()}
-          >
-            <ha-icon class="icon" icon="mdi:cog"></ha-icon>
-          </ha-icon-button>
         </ha-dialog-header>
 
         <div class="card-content">
           <div class="wrapper ${this._isEnabled ? "enabled" : ""}">
             <div style="flex: 50%; text-align: center;">
               <smartvan-io-inclinometer-indicator
-                .angle=${`${pitchAngle}`}
+                .angle=${pitchAngle}
+                .inverted=${this.config.pitch_inverted}
                 name="Pitch"
               ></smartvan-io-inclinometer-indicator>
             </div>
             <div style="flex: 50%; text-align: center;">
               <smartvan-io-inclinometer-indicator
-                .angle=${`${rollAngle}`}
+                .angle=${rollAngle}
+                .inverted=${this.config.roll_inverted}
                 name="Roll"
               ></smartvan-io-inclinometer-indicator>
             </div>
@@ -151,18 +146,6 @@ class SmartVanIOInclinometerCard extends LitElement {
     const newState = !state ? "turn_on" : "turn_off";
     this.hass.callService("homeassistant", newState, {
       entity_id: this.entities.toggle_inclinometer.entity_id,
-    });
-  }
-
-  _openConfigDialog() {
-    fireEvent(this, "show-dialog", {
-      dialogTag: "smartvan-io-inclinometer-dialog",
-      dialogImport: () => import("./dialog.js"),
-      hass: this.hass,
-      dialogParams: {
-        config: this.config,
-        entities: this.entities,
-      },
     });
   }
 
