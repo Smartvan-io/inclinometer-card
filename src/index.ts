@@ -92,8 +92,6 @@ class SmartVanIOInclinometerCard extends LitElement {
     const pitchAngle = parseFloat(this._pitchState);
     const rollAngle = parseFloat(this._rollState);
 
-    console.log(this.hass);
-
     return html`
       <ha-card>
         <ha-dialog-header>
