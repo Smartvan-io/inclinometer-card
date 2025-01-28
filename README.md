@@ -6,7 +6,7 @@ A simple card to show the pitch and roll angle of your van using the angle data 
 
 If you have [HACS](https://hacs.xyz/) installed, you can add this card as a custom repository:
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=smartvan-io&repository=inclinometer-card&category=smart+van)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=smartvan-io&repository=inclinometer-card&category=plugin)
 ---
 
 Need HACS? [Install it here](https://hacs.xyz/).
