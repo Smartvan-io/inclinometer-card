@@ -74,27 +74,34 @@ class SmartVanIOInclinometerCardEditor
   // Lovelace will call setConfig with the current configuration
   public setConfig(config: Config): void {
     this._entities = this._getEntitiesForDevice(config.device);
-    this._config = { ...config };
 
     this._possibleDevices = Object.values(this.hass.devices)
       .filter((item) => item.manufacturer === "smartvanio")
       .filter((item) => item.model === "inclinometer");
 
-    if (!this._config?.device) {
+    if (!config?.device) {
       if (this._possibleDevices.length === 1) {
         this._entities = this._getEntitiesForDevice(
           this._possibleDevices[0].id
         );
         fireEvent(this, "config-changed", {
           config: {
-            ...this._config,
+            ...config,
             device: this._possibleDevices[0].id,
           },
         });
       }
     } else {
-      this._entities = this._getEntitiesForDevice(this._config.device);
+      this._entities = this._getEntitiesForDevice(config.device);
     }
+
+    if (!this._config.device && config.device) {
+      this.hass.callService("switch", "turn_on", {
+        entity_id: this._entities.toggle_inclinometer.entity_id,
+      });
+    }
+
+    this._config = config;
   }
 
   disconnectedCallback() {
