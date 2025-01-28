@@ -75,9 +75,7 @@ class SmartVanIOInclinometerCardEditor
   public setConfig(config: Config): void {
     this._entities = this._getEntitiesForDevice(config.device);
     this._config = { ...config };
-  }
 
-  protected firstUpdated(): void {
     this._possibleDevices = Object.values(this.hass.devices)
       .filter((item) => item.manufacturer === "smartvanio")
       .filter((item) => item.model === "inclinometer");
@@ -99,13 +97,21 @@ class SmartVanIOInclinometerCardEditor
     }
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Function to call when the editor closes
+    this.hass.callService("switch", "turn_off", {
+      entity_id: this._entities.toggle_inclinometer.entity_id,
+    });
+  }
+
   // Render your editor form
   render() {
     if (!this.hass || !this._config) return nothing;
 
     const isUnavailable =
       !this._config.device ||
-      this._getEntityStates()?.some((item) => item === "Unavailable");
+      this._getEntityStates()?.some((item) => item === "unavailable");
 
     return html`
       <div class="card-config">
@@ -139,7 +145,7 @@ class SmartVanIOInclinometerCardEditor
           label="Orientation"
           @closed=${(e: Event) => e.stopPropagation()}
           @selected=${(e: any) => this._setOrientation(e.target.value)}
-          .value=${this._getState(this._entities.orientation)}
+          .value=${this._getState(this._entities?.orientation)}
         >
           ${options.map(
             (option) =>
@@ -166,7 +172,7 @@ class SmartVanIOInclinometerCardEditor
               slot="primaryAction"
               disable=${!this._config.device}
               @click=${() =>
-                this._setCalibration(
+                this._setButton(
                   this._entities?.reset_pitch_adjustment_angle.entity_id!
                 )}
             >
@@ -176,9 +182,7 @@ class SmartVanIOInclinometerCardEditor
               slot="primaryAction"
               disable=${!this._config.device}
               @click=${() =>
-                this._setCalibration(
-                  this._entities?.calibrate_pitch.entity_id!
-                )}
+                this._setButton(this._entities?.calibrate_pitch.entity_id!)}
             >
               Calibrate
             </mwc-button>
@@ -208,7 +212,7 @@ class SmartVanIOInclinometerCardEditor
               slot="primaryAction"
               disable=${!this._config.device}
               @click=${() =>
-                this._setCalibration(
+                this._setButton(
                   this._entities?.reset_roll_adjustment_angle.entity_id!
                 )}
             >
@@ -218,7 +222,7 @@ class SmartVanIOInclinometerCardEditor
               slot="primaryAction"
               disable=${!this._config.device}
               @click=${() =>
-                this._setCalibration(this._entities?.calibrate_roll.entity_id!)}
+                this._setButton(this._entities?.calibrate_roll.entity_id!)}
             >
               Calibrate
             </mwc-button>
@@ -240,7 +244,7 @@ class SmartVanIOInclinometerCardEditor
       return [];
     }
 
-    const states = Object.values(this._entities).map(
+    return Object.values(this._entities).map(
       (item) => this.hass.states[item.entity_id].state
     );
   }
@@ -311,7 +315,7 @@ class SmartVanIOInclinometerCardEditor
     });
   }
 
-  private _setCalibration(entity_id: string) {
+  private _setButton(entity_id: string) {
     this.hass.callService("button", "press", {
       entity_id,
     });
