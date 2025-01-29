@@ -21,5 +21,6 @@ Add https://cdn.jsdelivr.net/gh/smartvan-io/inclinometer-card@latest/index.js as
 
 
 ### Adding to your dashboard 
+![ScreenRecording2025-01-29at22 03 55-2-ezgif com-resize](https://github.com/user-attachments/assets/23737638-845c-45e9-920b-b4a14747f1ae)
 
-![Screen Recording 2025-01-18 at 21 08 46-2](https://github.com/user-attachments/assets/c1503fb2-730f-4cbf-8d92-a6deea24bd30)
+
