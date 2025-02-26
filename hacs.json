@@ -4,5 +4,6 @@
   "render_readme": true,
   "content_in_root": true,
   "codeowners": ["jameslouiz"],
+  "version": "2.0.0",
   "domain": "smartvanio"
 }
