@@ -7,12 +7,19 @@ export interface Entity {
 }
 
 export interface ExtendedHomeAssistant extends HomeAssistant {
-  entities: Record<string, any>; // Adjust types based on your needs
-  devices: Record<string, any>; // Adjust types based on your needs
+  entities: Record<string, any>;
+  devices: Record<string, any>;
 }
+
+export type InclinometerVariant = "classic" | "minimal" | "horizon";
 
 export interface Config extends LovelaceCardConfig {
   device: string;
+  variant?: InclinometerVariant;
+  // Display-only sign flips. Calibration lives on the device (set in
+  // the SmartVan.io addon UI); these just mirror the bar visually.
+  pitch_inverted?: boolean;
+  roll_inverted?: boolean;
 }
 
 export interface Device {
@@ -21,3 +28,9 @@ export interface Device {
   model?: string;
   manufacturer?: string;
 }
+
+export const VARIANT_OPTIONS: { value: InclinometerVariant; label: string }[] = [
+  { value: "classic", label: "Classic (bar indicator)" },
+  { value: "minimal", label: "Minimal (large digits)" },
+  { value: "horizon", label: "Horizon (aircraft-style)" },
+];

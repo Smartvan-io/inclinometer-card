@@ -1,22 +1,35 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ExtendedHomeAssistant } from "./types";
+
 const isLevel = (angle: number, tolerance = 1) => Math.abs(angle) <= tolerance;
 
+// "Classic" variant indicator — large angle reading, axis label,
+// rotating bar that turns green when within ±1° of level. Used by
+// the inclinometer card; not a custom config field.
 @customElement("smartvan-io-inclinometer-indicator")
 class SmartVanIOInclinometerLevelIndicator extends LitElement {
   @property({ attribute: false }) public angle: number = 0;
-  @property({ attribute: false }) public hass!: ExtendedHomeAssistant;
   @property({ attribute: false }) public inverted: boolean = false;
   @property() public name: string = "";
 
   static styles = css`
-    .wrapper {
-      opacity: 0.5;
-      display: flex;
+    :host {
+      display: block;
     }
-    .enabled {
-      opacity: 1;
+    .axis {
+      text-align: center;
+      padding: 8px 0;
+    }
+    h1 {
+      margin: 0 0 4px;
+      font-size: 1.6rem;
+    }
+    p {
+      margin: 0 0 12px;
+      color: var(--secondary-text-color);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
     .parent {
       display: flex;
@@ -24,7 +37,7 @@ class SmartVanIOInclinometerLevelIndicator extends LitElement {
       align-items: center;
       height: 96px;
       position: relative;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     .indicator {
       background-color: var(--primary-text-color);
@@ -32,41 +45,30 @@ class SmartVanIOInclinometerLevelIndicator extends LitElement {
       box-sizing: border-box;
       display: block;
       height: 8px;
-      line-height: 24px;
-      position: relative;
-      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-      bottom: 0;
-      z-index: 10;
+      transition: rotate 0.1s cubic-bezier(0.4, 0, 0.2, 1);
       width: calc(100% - 32px);
       min-width: 50px;
       max-width: 100px;
-
-      &.dark {
-        background-color: #333;
-      }
     }
     .indicator.level {
       background-color: rgb(34, 197, 94);
     }
   `;
 
-  constructor() {
-    super();
-  }
-
   render() {
-    const angle = isNaN(Number(this.angle))
-      ? "-"
-      : `${Math.abs(Number(this.angle))}°`;
-    const barAngle = this.inverted ? this.angle * -1 : this.angle;
+    const numericAngle = Number(this.angle);
+    const display = isNaN(numericAngle)
+      ? "—"
+      : `${Math.abs(numericAngle).toFixed(1)}°`;
+    const barAngle = this.inverted ? numericAngle * -1 : numericAngle;
     return html`
-      <div style="flex: 50%; text-align: center;">
-        <h1>${angle}</h1>
+      <div class="axis">
+        <h1>${display}</h1>
         <p>${this.name}</p>
         <div class="parent">
           <div
-            class="indicator ${isLevel(Number(this.angle)) ? "level" : ""}"
-            style="rotate: ${barAngle}deg;"
+            class="indicator ${isLevel(numericAngle) ? "level" : ""}"
+            style="rotate: ${isNaN(barAngle) ? 0 : barAngle}deg;"
           ></div>
         </div>
       </div>
