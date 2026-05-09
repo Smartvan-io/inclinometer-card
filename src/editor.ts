@@ -48,9 +48,18 @@ class SmartVanIOInclinometerCardEditor
   `;
 
   public setConfig(config: Config): void {
+    // Match the integration's DeviceInfo: manufacturer="SmartVan.io" and a
+    // device identifier starting with "smartvanio-inclinometer-". The display
+    // model string can vary, so we don't rely on it for filtering — the
+    // identifier prefix is what's stable.
     this._possibleDevices = Object.values(this.hass?.devices || {})
-      .filter((item: any) => item.manufacturer === "smartvanio")
-      .filter((item: any) => item.model === "inclinometer");
+      .filter((item: any) => item.manufacturer === "SmartVan.io")
+      .filter((item: any) =>
+        (item.identifiers || []).some(
+          (id: [string, string]) =>
+            id[0] === "smartvanio" && id[1]?.startsWith("smartvanio-inclinometer-")
+        )
+      );
 
     // If the user only has one inclinometer, pre-select it.
     if (!config.device && this._possibleDevices.length === 1) {
