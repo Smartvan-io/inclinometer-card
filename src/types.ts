@@ -32,5 +32,5 @@ export interface Device {
 export const VARIANT_OPTIONS: { value: InclinometerVariant; label: string }[] = [
   { value: "classic", label: "Classic (bar indicator)" },
   { value: "minimal", label: "Minimal (large digits)" },
-  { value: "horizon", label: "Horizon (aircraft-style)" },
+  { value: "horizon", label: "Bubble level (dot in circle)" },
 ];

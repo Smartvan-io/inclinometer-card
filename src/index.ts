@@ -1,5 +1,5 @@
-import { LitElement, html, css, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import "./indicator";
 import "./editor";
 import "./variants/minimal";
@@ -21,9 +21,6 @@ import {
 class SmartVanIOInclinometerCard extends LitElement {
   @property({ attribute: false }) public hass!: ExtendedHomeAssistant;
   @property({ attribute: false }) public config!: Config;
-
-  @state() private _pitchEntity?: string;
-  @state() private _rollEntity?: string;
 
   static getConfigElement() {
     return document.createElement("smartvan-io-inclinometer-editor");
@@ -61,27 +58,34 @@ class SmartVanIOInclinometerCard extends LitElement {
   `;
 
   public setConfig(config: Config) {
-    if (!config.device) {
-      throw new Error("You need to pick a SmartVan.io inclinometer device");
-    }
+    // Never throw — HA's card preview pane keeps the card stuck in an
+    // error state if setConfig throws on the initial stub config (device
+    // is empty until the user picks one). Render a placeholder instead.
     this.config = { variant: "classic", ...config };
-  }
-
-  protected updated() {
-    if (!this.config?.device || !this.hass) return;
-    if (this._pitchEntity && this._rollEntity) return;
-    const entities = this._entitiesForDevice(this.config.device);
-    this._pitchEntity = entities.find((id) =>
-      id.endsWith("_adjusted_pitch_angle")
-    );
-    this._rollEntity = entities.find((id) =>
-      id.endsWith("_adjusted_roll_angle")
-    );
   }
 
   render() {
     if (!this.config) return html`<ha-card>Loading…</ha-card>`;
-    if (!this._pitchEntity || !this._rollEntity) {
+
+    if (!this.config.device) {
+      return html`
+        <ha-card>
+          <div class="placeholder">
+            Pick a SmartVan.io inclinometer in the editor.
+          </div>
+        </ha-card>
+      `;
+    }
+
+    // Resolve pitch/roll entities every render — caching them as @state
+    // and using updated() to populate them was causing stale lookups
+    // when the user changed devices, since the early-out short-circuited
+    // re-fetching. Render-time lookup is cheap and always fresh.
+    const entities = this._entitiesForDevice(this.config.device);
+    const pitchEntity = entities.find((id) => id.endsWith("_adjusted_pitch_angle"));
+    const rollEntity = entities.find((id) => id.endsWith("_adjusted_roll_angle"));
+
+    if (!pitchEntity || !rollEntity) {
       return html`
         <ha-card>
           <div class="placeholder">
@@ -91,8 +95,8 @@ class SmartVanIOInclinometerCard extends LitElement {
       `;
     }
 
-    const pitch = this._readNumber(this._pitchEntity);
-    const roll = this._readNumber(this._rollEntity);
+    const pitch = this._readNumber(pitchEntity);
+    const roll = this._readNumber(rollEntity);
     const variant: InclinometerVariant = this.config.variant ?? "classic";
 
     return html`

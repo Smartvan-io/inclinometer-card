@@ -9,19 +9,19 @@ const i=globalThis,s=i.ShadowRoot&&(void 0===i.ShadyCSS||i.ShadyCSS.nativeShadow
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */,{is:c,defineProperty:h,getOwnPropertyDescriptor:d,getOwnPropertyNames:p,getOwnPropertySymbols:u,getPrototypeOf:m}=Object,g=globalThis,v=g.trustedTypes,f=v?v.emptyScript:"",_=g.reactiveElementPolyfillSupport,$=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?f:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},b=(t,e)=>!c(t,e),A={attribute:!0,type:String,converter:y,reflect:!1,hasChanged:b};Symbol.metadata??=Symbol("metadata"),g.litPropertyMetadata??=new WeakMap;let x=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=A){if(e.state&&(e.attribute=!1),this._$Ei(),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&h(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:r}=d(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get(){return s?.call(this)},set(e){const n=s?.call(this);r.call(this,e),this.requestUpdate(t,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??A}static _$Ei(){if(this.hasOwnProperty($("elementProperties")))return;const t=m(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty($("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty($("properties"))){const t=this.properties,e=[...p(t),...u(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(l(t))}else void 0!==t&&e.push(l(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach((t=>t(this)))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((t,e)=>{if(s)t.adoptedStyleSheets=e.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet));else for(const s of e){const e=document.createElement("style"),r=i.litNonce;void 0!==r&&e.setAttribute("nonce",r),e.textContent=s.cssText,t.appendChild(e)}})(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach((t=>t.hostConnected?.()))}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach((t=>t.hostDisconnected?.()))}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$EC(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const r=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==r?this.removeAttribute(s):this.setAttribute(s,r),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),r="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=s,this[s]=r.fromAttribute(e,t.type),this._$Em=null}}requestUpdate(t,e,i){if(void 0!==t){if(i??=this.constructor.getPropertyOptions(t),!(i.hasChanged??b)(this[t],e))return;this.P(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$ET())}P(t,e,i){this._$AL.has(t)||this._$AL.set(t,e),!0===i.reflect&&this._$Em!==t&&(this._$Ej??=new Set).add(t)}async _$ET(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t)!0!==i.wrapped||this._$AL.has(e)||void 0===this[e]||this.P(e,this[e],i)}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach((t=>t.hostUpdate?.())),this.update(e)):this._$EU()}catch(e){throw t=!1,this._$EU(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach((t=>t.hostUpdated?.())),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EU(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Ej&&=this._$Ej.forEach((t=>this._$EC(t,this[t]))),this._$EU()}updated(t){}firstUpdated(t){}};x.elementStyles=[],x.shadowRootOptions={mode:"open"},x[$("elementProperties")]=new Map,x[$("finalized")]=new Map,_?.({ReactiveElement:x}),(g.reactiveElementVersions??=[]).push("2.0.4");
+ */,{is:c,defineProperty:h,getOwnPropertyDescriptor:d,getOwnPropertyNames:p,getOwnPropertySymbols:u,getPrototypeOf:m}=Object,v=globalThis,f=v.trustedTypes,g=f?f.emptyScript:"",$=v.reactiveElementPolyfillSupport,_=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?g:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},b=(t,e)=>!c(t,e),A={attribute:!0,type:String,converter:y,reflect:!1,hasChanged:b};Symbol.metadata??=Symbol("metadata"),v.litPropertyMetadata??=new WeakMap;let x=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=A){if(e.state&&(e.attribute=!1),this._$Ei(),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&h(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:r}=d(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get(){return s?.call(this)},set(e){const n=s?.call(this);r.call(this,e),this.requestUpdate(t,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??A}static _$Ei(){if(this.hasOwnProperty(_("elementProperties")))return;const t=m(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(_("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(_("properties"))){const t=this.properties,e=[...p(t),...u(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(l(t))}else void 0!==t&&e.push(l(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach((t=>t(this)))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((t,e)=>{if(s)t.adoptedStyleSheets=e.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet));else for(const s of e){const e=document.createElement("style"),r=i.litNonce;void 0!==r&&e.setAttribute("nonce",r),e.textContent=s.cssText,t.appendChild(e)}})(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach((t=>t.hostConnected?.()))}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach((t=>t.hostDisconnected?.()))}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$EC(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const r=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==r?this.removeAttribute(s):this.setAttribute(s,r),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),r="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=s,this[s]=r.fromAttribute(e,t.type),this._$Em=null}}requestUpdate(t,e,i){if(void 0!==t){if(i??=this.constructor.getPropertyOptions(t),!(i.hasChanged??b)(this[t],e))return;this.P(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$ET())}P(t,e,i){this._$AL.has(t)||this._$AL.set(t,e),!0===i.reflect&&this._$Em!==t&&(this._$Ej??=new Set).add(t)}async _$ET(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t)!0!==i.wrapped||this._$AL.has(e)||void 0===this[e]||this.P(e,this[e],i)}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach((t=>t.hostUpdate?.())),this.update(e)):this._$EU()}catch(e){throw t=!1,this._$EU(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach((t=>t.hostUpdated?.())),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EU(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Ej&&=this._$Ej.forEach((t=>this._$EC(t,this[t]))),this._$EU()}updated(t){}firstUpdated(t){}};x.elementStyles=[],x.shadowRootOptions={mode:"open"},x[_("elementProperties")]=new Map,x[_("finalized")]=new Map,$?.({ReactiveElement:x}),(v.reactiveElementVersions??=[]).push("2.0.4");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const w=globalThis,E=w.trustedTypes,S=E?E.createPolicy("lit-html",{createHTML:t=>t}):void 0,N="$lit$",P=`lit$${Math.random().toFixed(9).slice(2)}$`,C="?"+P,O=`<${C}>`,k=document,U=()=>k.createComment(""),M=t=>null===t||"object"!=typeof t&&"function"!=typeof t,R=Array.isArray,j="[ \t\n\f\r]",H=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,T=/-->/g,z=/>/g,D=RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),B=/'/g,L=/"/g,V=/^(?:script|style|textarea|title)$/i,I=t=>(e,...i)=>({_$litType$:t,strings:e,values:i}),W=I(1),F=I(2),q=Symbol.for("lit-noChange"),J=Symbol.for("lit-nothing"),K=new WeakMap,Z=k.createTreeWalker(k,129);function G(t,e){if(!R(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(e):e}const Y=(t,e)=>{const i=t.length-1,s=[];let r,n=2===e?"<svg>":3===e?"<math>":"",o=H;for(let e=0;e<i;e++){const i=t[e];let a,l,c=-1,h=0;for(;h<i.length&&(o.lastIndex=h,l=o.exec(i),null!==l);)h=o.lastIndex,o===H?"!--"===l[1]?o=T:void 0!==l[1]?o=z:void 0!==l[2]?(V.test(l[2])&&(r=RegExp("</"+l[2],"g")),o=D):void 0!==l[3]&&(o=D):o===D?">"===l[0]?(o=r??H,c=-1):void 0===l[1]?c=-2:(c=o.lastIndex-l[2].length,a=l[1],o=void 0===l[3]?D:'"'===l[3]?L:B):o===L||o===B?o=D:o===T||o===z?o=H:(o=D,r=void 0);const d=o===D&&t[e+1].startsWith("/>")?" ":"";n+=o===H?i+O:c>=0?(s.push(a),i.slice(0,c)+N+i.slice(c)+P+d):i+P+(-2===c?e:d)}return[G(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class Q{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let r=0,n=0;const o=t.length-1,a=this.parts,[l,c]=Y(t,e);if(this.el=Q.createElement(l,i),Z.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=Z.nextNode())&&a.length<o;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(N)){const e=c[n++],i=s.getAttribute(t).split(P),o=/([.?@])?(.*)/.exec(e);a.push({type:1,index:r,name:o[2],strings:i,ctor:"."===o[1]?st:"?"===o[1]?rt:"@"===o[1]?nt:it}),s.removeAttribute(t)}else t.startsWith(P)&&(a.push({type:6,index:r}),s.removeAttribute(t));if(V.test(s.tagName)){const t=s.textContent.split(P),e=t.length-1;if(e>0){s.textContent=E?E.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],U()),Z.nextNode(),a.push({type:2,index:++r});s.append(t[e],U())}}}else if(8===s.nodeType)if(s.data===C)a.push({type:2,index:r});else{let t=-1;for(;-1!==(t=s.data.indexOf(P,t+1));)a.push({type:7,index:r}),t+=P.length-1}r++}}static createElement(t,e){const i=k.createElement("template");return i.innerHTML=t,i}}function X(t,e,i=t,s){if(e===q)return e;let r=void 0!==s?i._$Co?.[s]:i._$Cl;const n=M(e)?void 0:e._$litDirective$;return r?.constructor!==n&&(r?._$AO?.(!1),void 0===n?r=void 0:(r=new n(t),r._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=r:i._$Cl=r),void 0!==r&&(e=X(t,r._$AS(t,e.values),r,s)),e}class tt{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??k).importNode(e,!0);Z.currentNode=s;let r=Z.nextNode(),n=0,o=0,a=i[0];for(;void 0!==a;){if(n===a.index){let e;2===a.type?e=new et(r,r.nextSibling,this,t):1===a.type?e=new a.ctor(r,a.name,a.strings,this,t):6===a.type&&(e=new ot(r,this,t)),this._$AV.push(e),a=i[++o]}n!==a?.index&&(r=Z.nextNode(),n++)}return Z.currentNode=k,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class et{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=J,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=X(this,t,e),M(t)?t===J||null==t||""===t?(this._$AH!==J&&this._$AR(),this._$AH=J):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>R(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==J&&M(this._$AH)?this._$AA.nextSibling.data=t:this.T(k.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=Q.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new tt(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=K.get(t.strings);return void 0===e&&K.set(t.strings,e=new Q(t)),e}k(t){R(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const r of t)s===e.length?e.push(i=new et(this.O(U()),this.O(U()),this,this.options)):i=e[s],i._$AI(r),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class it{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,r){this.type=1,this._$AH=J,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=r,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=J}_$AI(t,e=this,i,s){const r=this.strings;let n=!1;if(void 0===r)t=X(this,t,e,0),n=!M(t)||t!==this._$AH&&t!==q,n&&(this._$AH=t);else{const s=t;let o,a;for(t=r[0],o=0;o<r.length-1;o++)a=X(this,s[i+o],e,o),a===q&&(a=this._$AH[o]),n||=!M(a)||a!==this._$AH[o],a===J?t=J:t!==J&&(t+=(a??"")+r[o+1]),this._$AH[o]=a}n&&!s&&this.j(t)}j(t){t===J?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class st extends it{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===J?void 0:t}}class rt extends it{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==J)}}class nt extends it{constructor(t,e,i,s,r){super(t,e,i,s,r),this.type=5}_$AI(t,e=this){if((t=X(this,t,e,0)??J)===q)return;const i=this._$AH,s=t===J&&i!==J||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,r=t!==J&&(i===J||s);s&&this.element.removeEventListener(this.name,this,i),r&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class ot{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){X(this,t)}}const at=w.litHtmlPolyfillSupport;at?.(Q,et),(w.litHtmlVersions??=[]).push("3.2.1");
+const w=globalThis,E=w.trustedTypes,S=E?E.createPolicy("lit-html",{createHTML:t=>t}):void 0,N="$lit$",C=`lit$${Math.random().toFixed(9).slice(2)}$`,P="?"+C,O=`<${P}>`,U=document,k=()=>U.createComment(""),R=t=>null===t||"object"!=typeof t&&"function"!=typeof t,M=Array.isArray,T="[ \t\n\f\r]",H=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,j=/>/g,L=RegExp(`>|${T}(?:([^\\s"'>=/]+)(${T}*=${T}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),D=/'/g,I=/"/g,B=/^(?:script|style|textarea|title)$/i,V=t=>(e,...i)=>({_$litType$:t,strings:e,values:i}),W=V(1),q=V(2),F=Symbol.for("lit-noChange"),J=Symbol.for("lit-nothing"),K=new WeakMap,Z=U.createTreeWalker(U,129);function G(t,e){if(!M(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(e):e}const Q=(t,e)=>{const i=t.length-1,s=[];let r,n=2===e?"<svg>":3===e?"<math>":"",o=H;for(let e=0;e<i;e++){const i=t[e];let a,l,c=-1,h=0;for(;h<i.length&&(o.lastIndex=h,l=o.exec(i),null!==l);)h=o.lastIndex,o===H?"!--"===l[1]?o=z:void 0!==l[1]?o=j:void 0!==l[2]?(B.test(l[2])&&(r=RegExp("</"+l[2],"g")),o=L):void 0!==l[3]&&(o=L):o===L?">"===l[0]?(o=r??H,c=-1):void 0===l[1]?c=-2:(c=o.lastIndex-l[2].length,a=l[1],o=void 0===l[3]?L:'"'===l[3]?I:D):o===I||o===D?o=L:o===z||o===j?o=H:(o=L,r=void 0);const d=o===L&&t[e+1].startsWith("/>")?" ":"";n+=o===H?i+O:c>=0?(s.push(a),i.slice(0,c)+N+i.slice(c)+C+d):i+C+(-2===c?e:d)}return[G(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class X{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let r=0,n=0;const o=t.length-1,a=this.parts,[l,c]=Q(t,e);if(this.el=X.createElement(l,i),Z.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=Z.nextNode())&&a.length<o;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(N)){const e=c[n++],i=s.getAttribute(t).split(C),o=/([.?@])?(.*)/.exec(e);a.push({type:1,index:r,name:o[2],strings:i,ctor:"."===o[1]?st:"?"===o[1]?rt:"@"===o[1]?nt:it}),s.removeAttribute(t)}else t.startsWith(C)&&(a.push({type:6,index:r}),s.removeAttribute(t));if(B.test(s.tagName)){const t=s.textContent.split(C),e=t.length-1;if(e>0){s.textContent=E?E.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],k()),Z.nextNode(),a.push({type:2,index:++r});s.append(t[e],k())}}}else if(8===s.nodeType)if(s.data===P)a.push({type:2,index:r});else{let t=-1;for(;-1!==(t=s.data.indexOf(C,t+1));)a.push({type:7,index:r}),t+=C.length-1}r++}}static createElement(t,e){const i=U.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===F)return e;let r=void 0!==s?i._$Co?.[s]:i._$Cl;const n=R(e)?void 0:e._$litDirective$;return r?.constructor!==n&&(r?._$AO?.(!1),void 0===n?r=void 0:(r=new n(t),r._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=r:i._$Cl=r),void 0!==r&&(e=Y(t,r._$AS(t,e.values),r,s)),e}class tt{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??U).importNode(e,!0);Z.currentNode=s;let r=Z.nextNode(),n=0,o=0,a=i[0];for(;void 0!==a;){if(n===a.index){let e;2===a.type?e=new et(r,r.nextSibling,this,t):1===a.type?e=new a.ctor(r,a.name,a.strings,this,t):6===a.type&&(e=new ot(r,this,t)),this._$AV.push(e),a=i[++o]}n!==a?.index&&(r=Z.nextNode(),n++)}return Z.currentNode=U,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class et{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=J,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),R(t)?t===J||null==t||""===t?(this._$AH!==J&&this._$AR(),this._$AH=J):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>M(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==J&&R(this._$AH)?this._$AA.nextSibling.data=t:this.T(U.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=X.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new tt(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=K.get(t.strings);return void 0===e&&K.set(t.strings,e=new X(t)),e}k(t){M(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const r of t)s===e.length?e.push(i=new et(this.O(k()),this.O(k()),this,this.options)):i=e[s],i._$AI(r),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class it{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,r){this.type=1,this._$AH=J,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=r,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=J}_$AI(t,e=this,i,s){const r=this.strings;let n=!1;if(void 0===r)t=Y(this,t,e,0),n=!R(t)||t!==this._$AH&&t!==F,n&&(this._$AH=t);else{const s=t;let o,a;for(t=r[0],o=0;o<r.length-1;o++)a=Y(this,s[i+o],e,o),a===F&&(a=this._$AH[o]),n||=!R(a)||a!==this._$AH[o],a===J?t=J:t!==J&&(t+=(a??"")+r[o+1]),this._$AH[o]=a}n&&!s&&this.j(t)}j(t){t===J?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class st extends it{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===J?void 0:t}}class rt extends it{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==J)}}class nt extends it{constructor(t,e,i,s,r){super(t,e,i,s,r),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??J)===F)return;const i=this._$AH,s=t===J&&i!==J||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,r=t!==J&&(i===J||s);s&&this.element.removeEventListener(this.name,this,i),r&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class ot{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const at=w.litHtmlPolyfillSupport;at?.(X,et),(w.litHtmlVersions??=[]).push("3.2.1");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-let lt=class extends x{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let r=s._$litPart$;if(void 0===r){const t=i?.renderBefore??null;s._$litPart$=r=new et(e.insertBefore(U(),t),t,void 0,i??{})}return r._$AI(t),r})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}};lt._$litElement$=!0,lt.finalized=!0,globalThis.litElementHydrateSupport?.({LitElement:lt});const ct=globalThis.litElementPolyfillSupport;ct?.({LitElement:lt}),(globalThis.litElementVersions??=[]).push("4.1.1");
+let lt=class extends x{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let r=s._$litPart$;if(void 0===r){const t=i?.renderBefore??null;s._$litPart$=r=new et(e.insertBefore(k(),t),t,void 0,i??{})}return r._$AI(t),r})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return F}};lt._$litElement$=!0,lt.finalized=!0,globalThis.litElementHydrateSupport?.({LitElement:lt});const ct=globalThis.litElementPolyfillSupport;ct?.({LitElement:lt}),(globalThis.litElementVersions??=[]).push("4.1.1");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -37,7 +37,7 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */}function mt(t){return ut({...t,state:!0,attribute:!1})}let gt=class extends lt{constructor(){super(...arguments),this.angle=0,this.inverted=!1,this.name=""}render(){const t=Number(this.angle),e=isNaN(t)?"—":`${Math.abs(t).toFixed(1)}°`,i=this.inverted?-1*t:t;return W`
+ */}let mt=class extends lt{constructor(){super(...arguments),this.angle=0,this.inverted=!1,this.name=""}render(){const t=Number(this.angle),e=isNaN(t)?"—":`${Math.abs(t).toFixed(1)}°`,i=this.inverted?-1*t:t;return W`
       <div class="axis">
         <h1>${e}</h1>
         <p>${this.name}</p>
@@ -48,7 +48,7 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
           ></div>
         </div>
       </div>
-    `}};var vt,ft;gt.styles=a`
+    `}};var vt,ft;mt.styles=a`
     :host {
       display: block;
     }
@@ -89,73 +89,15 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
     .indicator.level {
       background-color: rgb(34, 197, 94);
     }
-  `,t([ut({attribute:!1}),e("design:type",Number)],gt.prototype,"angle",void 0),t([ut({attribute:!1}),e("design:type",Boolean)],gt.prototype,"inverted",void 0),t([ut(),e("design:type",String)],gt.prototype,"name",void 0),gt=t([ht("smartvan-io-inclinometer-indicator")],gt),function(t){t.language="language",t.system="system",t.comma_decimal="comma_decimal",t.decimal_comma="decimal_comma",t.space_comma="space_comma",t.none="none"}(vt||(vt={})),function(t){t.language="language",t.system="system",t.am_pm="12",t.twenty_four="24"}(ft||(ft={}));var _t=function(t,e,i,s){s=s||{},i=null==i?{}:i;var r=new Event(e,{bubbles:void 0===s.bubbles||s.bubbles,cancelable:Boolean(s.cancelable),composed:void 0===s.composed||s.composed});return r.detail=i,t.dispatchEvent(r),r};const $t=[{value:"classic",label:"Classic (bar indicator)"},{value:"minimal",label:"Minimal (large digits)"},{value:"horizon",label:"Horizon (aircraft-style)"}];let yt=class extends lt{constructor(){super(...arguments),this._possibleDevices=[],this._config={type:"custom:smartvan-io-inclinometer",device:"",variant:"classic"}}setConfig(t){var e;this._possibleDevices=Object.values((null===(e=this.hass)||void 0===e?void 0:e.devices)||{}).filter((t=>"SmartVan.io"===t.manufacturer)).filter((t=>(t.identifiers||[]).some((t=>{var e;return"smartvanio"===t[0]&&(null===(e=t[1])||void 0===e?void 0:e.startsWith("smartvanio-inclinometer-"))})))),t.device||1!==this._possibleDevices.length||_t(this,"config-changed",{config:Object.assign(Object.assign({},t),{device:this._possibleDevices[0].id})}),this._config=Object.assign({variant:"classic"},t)}render(){var t;return this.hass&&this._config?W`
-      <div class="card-config">
-        <ha-select
-          class="full-width"
-          label="Inclinometer"
-          @closed=${t=>t.stopPropagation()}
-          @selected=${t=>this._setDevice(t.target.value)}
-          .value=${this._config.device}
-        >
-          ${this._possibleDevices.map((t=>W`
-              <mwc-list-item .value=${t.id}>${t.name}</mwc-list-item>
-            `))}
-        </ha-select>
-
-        <ha-select
-          class="full-width"
-          label="Style"
-          @closed=${t=>t.stopPropagation()}
-          @selected=${t=>this._setVariant(t.target.value)}
-          .value=${null!==(t=this._config.variant)&&void 0!==t?t:"classic"}
-        >
-          ${$t.map((t=>W`
-              <mwc-list-item .value=${t.value}>${t.label}</mwc-list-item>
-            `))}
-        </ha-select>
-
-        <div class="row">
-          <span>Invert pitch direction</span>
-          <ha-switch
-            .checked=${!!this._config.pitch_inverted}
-            @change=${t=>this._setBool("pitch_inverted",t.target.checked)}
-          ></ha-switch>
-        </div>
-
-        <div class="row">
-          <span>Invert roll direction</span>
-          <ha-switch
-            .checked=${!!this._config.roll_inverted}
-            @change=${t=>this._setBool("roll_inverted",t.target.checked)}
-          ></ha-switch>
-        </div>
-
-        <div class="hint">
-          Calibration (orientation, pitch/roll compensation, zero) lives in
-          the SmartVan.io add-on — open it from the Home&nbsp;Assistant sidebar.
-        </div>
-      </div>
-    `:J}_setDevice(t){_t(this,"config-changed",{config:Object.assign(Object.assign({},this._config),{device:t})})}_setVariant(t){_t(this,"config-changed",{config:Object.assign(Object.assign({},this._config),{variant:t})})}_setBool(t,e){_t(this,"config-changed",{config:Object.assign(Object.assign({},this._config),{[t]:e})})}};yt.styles=a`
-    .card-config {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .full-width {
-      width: 100%;
-    }
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .hint {
-      color: var(--secondary-text-color);
-      font-size: 0.85rem;
-    }
-  `,t([ut({attribute:!1}),e("design:type",Object)],yt.prototype,"hass",void 0),t([mt(),e("design:type",Array)],yt.prototype,"_possibleDevices",void 0),t([mt(),e("design:type",Object)],yt.prototype,"_config",void 0),yt=t([ht("smartvan-io-inclinometer-editor")],yt);let bt=class extends lt{constructor(){super(...arguments),this.pitch=NaN,this.roll=NaN}_row(t,e){const i=!isNaN(e)&&Math.abs(e)<=1,s=isNaN(e)?"—":Math.abs(e).toFixed(1);return W`
+  `,t([ut({attribute:!1}),e("design:type",Number)],mt.prototype,"angle",void 0),t([ut({attribute:!1}),e("design:type",Boolean)],mt.prototype,"inverted",void 0),t([ut(),e("design:type",String)],mt.prototype,"name",void 0),mt=t([ht("smartvan-io-inclinometer-indicator")],mt),function(t){t.language="language",t.system="system",t.comma_decimal="comma_decimal",t.decimal_comma="decimal_comma",t.space_comma="space_comma",t.none="none"}(vt||(vt={})),function(t){t.language="language",t.system="system",t.am_pm="12",t.twenty_four="24"}(ft||(ft={}));const gt=[{name:"device",required:!0,selector:{device:{filter:{integration:"smartvanio",model:"SmartVan.io Inclinometer"}}}},{name:"variant",required:!0,selector:{select:{mode:"dropdown",options:[{value:"classic",label:"Classic (bar indicator)"},{value:"minimal",label:"Minimal (large digits)"},{value:"horizon",label:"Bubble level (dot in circle)"}].map((t=>({value:t.value,label:t.label})))}}},{name:"pitch_inverted",selector:{boolean:{}}},{name:"roll_inverted",selector:{boolean:{}}}],$t={device:"Inclinometer",variant:"Style",pitch_inverted:"Invert pitch direction",roll_inverted:"Invert roll direction"};let _t=class extends lt{constructor(){super(...arguments),this._config={type:"custom:smartvan-io-inclinometer",device:"",variant:"classic"},this._computeLabel=t=>{var e;return null!==(e=$t[t.name])&&void 0!==e?e:t.name},this._valueChanged=t=>{!function(t,e,i,s){s=s||{},i=null==i?{}:i;var r=new Event(e,{bubbles:void 0===s.bubbles||s.bubbles,cancelable:Boolean(s.cancelable),composed:void 0===s.composed||s.composed});r.detail=i,t.dispatchEvent(r)}(this,"config-changed",{config:t.detail.value})}}setConfig(t){this._config=Object.assign({variant:"classic"},t)}render(){return this.hass&&this._config?W`
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._config}
+        .schema=${gt}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
+    `:J}};t([ut({attribute:!1}),e("design:type",Object)],_t.prototype,"hass",void 0),t([function(t){return ut({...t,state:!0,attribute:!1})}(),e("design:type",Object)],_t.prototype,"_config",void 0),_t=t([ht("smartvan-io-inclinometer-editor")],_t);let yt=class extends lt{constructor(){super(...arguments),this.pitch=NaN,this.roll=NaN}_row(t,e){const i=!isNaN(e)&&Math.abs(e)<=1,s=isNaN(e)?"—":Math.abs(e).toFixed(1);return W`
       <div class="axis ${i?"level":""}">
         <div class="label">${t}</div>
         <div class="value">${s}<span class="unit">°</span></div>
@@ -165,7 +107,7 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
         ${this._row("Pitch",Number(this.pitch))}
         ${this._row("Roll",Number(this.roll))}
       </div>
-    `}};bt.styles=a`
+    `}};yt.styles=a`
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -195,44 +137,33 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
     .level .value {
       color: rgb(34, 197, 94);
     }
-  `,t([ut({attribute:!1}),e("design:type",Number)],bt.prototype,"pitch",void 0),t([ut({attribute:!1}),e("design:type",Number)],bt.prototype,"roll",void 0),bt=t([ht("smartvan-io-inclinometer-minimal")],bt);let At=class extends lt{constructor(){super(...arguments),this.pitch=NaN,this.roll=NaN}render(){const t=Number(this.pitch),e=Number(this.roll),i=isNaN(t)?0:t,s=isNaN(e)?0:e,r=Math.max(-50,Math.min(50,2*i)),n=t=>isNaN(t)?"—":`${Math.abs(t).toFixed(1)}°`;return W`
+  `,t([ut({attribute:!1}),e("design:type",Number)],yt.prototype,"pitch",void 0),t([ut({attribute:!1}),e("design:type",Number)],yt.prototype,"roll",void 0),yt=t([ht("smartvan-io-inclinometer-minimal")],yt);let bt=class extends lt{constructor(){super(...arguments),this.pitch=NaN,this.roll=NaN}render(){const t=Number(this.pitch),e=Number(this.roll),i=isNaN(t)?0:t,s=isNaN(e)?0:e;let r=5*s,n=5*-i;const o=Math.hypot(r,n);if(o>87){const t=87/o;r*=t,n*=t}const a=Math.hypot(i,s),l=a<=2?"var(--success-color, #4caf50)":a<=10?"var(--warning-color, #ff9800)":"var(--error-color, #f44336)",c=t=>isNaN(t)?"—":`${t>=0?"+":""}${t.toFixed(1)}°`;return W`
       <div class="wrap">
         <svg class="disk" viewBox="-100 -100 200 200" aria-hidden="true">
-          <defs>
-            <clipPath id="disk-clip">
-              <circle r="95" />
-            </clipPath>
-          </defs>
-          <g transform="rotate(${-s})" clip-path="url(#disk-clip)">
-            <g transform="translate(0, ${r})">
-              <!-- Sky -->
-              <rect x="-200" y="-200" width="400" height="200" fill="#3b82f6" />
-              <!-- Ground -->
-              <rect x="-200" y="0" width="400" height="200" fill="#92400e" />
-              <!-- Horizon line -->
-              <line x1="-200" y1="0" x2="200" y2="0" stroke="white" stroke-width="2" />
-              ${this._pitchLadder()}
-            </g>
-          </g>
-          <!-- Fixed aircraft reference (centre marker) -->
-          <line x1="-30" y1="0" x2="-10" y2="0" stroke="#fbbf24" stroke-width="3" />
-          <line x1="10" y1="0" x2="30" y2="0" stroke="#fbbf24" stroke-width="3" />
-          <circle r="2" fill="#fbbf24" />
-          <!-- Disk outline -->
-          <circle r="95" fill="none" stroke="var(--divider-color, #444)" stroke-width="2" />
+          <!-- Outer disk -->
+          <circle r="95" fill="var(--card-background-color, #1c1c1c)" stroke="var(--divider-color, #444)" stroke-width="2" />
+
+          <!-- Concentric rings: 2°, 5°, 10° -->
+          ${[10,25,50].map(((t,e)=>q`
+              <circle r=${t} fill="none" stroke="var(--divider-color, #444)" stroke-width="1" stroke-dasharray=${0===e?"1 2":"2 3"} opacity="0.5" />
+            `))}
+
+          <!-- Crosshairs through centre -->
+          <line x1="-95" y1="0" x2="95" y2="0" stroke="var(--divider-color, #444)" stroke-width="1" opacity="0.4" />
+          <line x1="0" y1="-95" x2="0" y2="95" stroke="var(--divider-color, #444)" stroke-width="1" opacity="0.4" />
+
+          <!-- Centre marker -->
+          <circle r="2" fill="var(--secondary-text-color, #888)" />
+
+          <!-- Tilt dot -->
+          <circle class="dot" cx=${r} cy=${n} r="8" fill=${l} stroke="white" stroke-width="1.5" />
         </svg>
         <div class="readouts">
-          <span>Pitch <strong>${n(i)}</strong></span>
-          <span>Roll <strong>${n(s)}</strong></span>
+          <span>Pitch <strong>${c(i)}</strong></span>
+          <span>Roll <strong>${c(s)}</strong></span>
         </div>
       </div>
-    `}_pitchLadder(){return[-30,-20,-10,10,20,30].map((t=>F`
-        <g transform="translate(0, ${2*t})">
-          <line x1="-20" y1="0" x2="20" y2="0" stroke="white" stroke-width="1" opacity="0.6" />
-          <text x="-26" y="3" text-anchor="end" font-size="8" fill="white" opacity="0.7">${Math.abs(t)}</text>
-          <text x="26" y="3" font-size="8" fill="white" opacity="0.7">${Math.abs(t)}</text>
-        </g>
-      `))}};At.styles=a`
+    `}};bt.styles=a`
     .wrap {
       display: flex;
       flex-direction: column;
@@ -256,16 +187,25 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       color: var(--primary-text-color);
       font-weight: 600;
     }
-  `,t([ut({attribute:!1}),e("design:type",Number)],At.prototype,"pitch",void 0),t([ut({attribute:!1}),e("design:type",Number)],At.prototype,"roll",void 0),At=t([ht("smartvan-io-inclinometer-horizon")],At);let xt=class extends lt{static getConfigElement(){return document.createElement("smartvan-io-inclinometer-editor")}static getStubConfig(){return{device:"",variant:"classic"}}setConfig(t){if(!t.device)throw new Error("You need to pick a SmartVan.io inclinometer device");this.config=Object.assign({variant:"classic"},t)}updated(){var t;if(!(null===(t=this.config)||void 0===t?void 0:t.device)||!this.hass)return;if(this._pitchEntity&&this._rollEntity)return;const e=this._entitiesForDevice(this.config.device);this._pitchEntity=e.find((t=>t.endsWith("_adjusted_pitch_angle"))),this._rollEntity=e.find((t=>t.endsWith("_adjusted_roll_angle")))}render(){var t;if(!this.config)return W`<ha-card>Loading…</ha-card>`;if(!this._pitchEntity||!this._rollEntity)return W`
+    .dot {
+      transition: cx 0.15s ease-out, cy 0.15s ease-out, fill 0.2s ease-out;
+    }
+  `,t([ut({attribute:!1}),e("design:type",Number)],bt.prototype,"pitch",void 0),t([ut({attribute:!1}),e("design:type",Number)],bt.prototype,"roll",void 0),bt=t([ht("smartvan-io-inclinometer-horizon")],bt);let At=class extends lt{static getConfigElement(){return document.createElement("smartvan-io-inclinometer-editor")}static getStubConfig(){return{device:"",variant:"classic"}}setConfig(t){this.config=Object.assign({variant:"classic"},t)}render(){var t;if(!this.config)return W`<ha-card>Loading…</ha-card>`;if(!this.config.device)return W`
+        <ha-card>
+          <div class="placeholder">
+            Pick a SmartVan.io inclinometer in the editor.
+          </div>
+        </ha-card>
+      `;const e=this._entitiesForDevice(this.config.device),i=e.find((t=>t.endsWith("_adjusted_pitch_angle"))),s=e.find((t=>t.endsWith("_adjusted_roll_angle")));if(!i||!s)return W`
         <ha-card>
           <div class="placeholder">
             Configure this card in the SmartVan.io add-on, then come back.
           </div>
         </ha-card>
-      `;const e=this._readNumber(this._pitchEntity),i=this._readNumber(this._rollEntity),s=null!==(t=this.config.variant)&&void 0!==t?t:"classic";return W`
+      `;const r=this._readNumber(i),n=this._readNumber(s),o=null!==(t=this.config.variant)&&void 0!==t?t:"classic";return W`
       <ha-card>
         <div class="header">Pitch and Roll</div>
-        ${this._renderVariant(s,e,i)}
+        ${this._renderVariant(o,r,n)}
       </ha-card>
     `}_renderVariant(t,e,i){switch(t){case"minimal":return W`
           <smartvan-io-inclinometer-minimal
@@ -290,7 +230,7 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
               name="Roll"
             ></smartvan-io-inclinometer-indicator>
           </div>
-        `}}_readNumber(t){var e;const i=null===(e=this.hass.states[t])||void 0===e?void 0:e.state,s=parseFloat(i);return isNaN(s)?NaN:s}_entitiesForDevice(t){var e;return(null===(e=this.hass)||void 0===e?void 0:e.entities)?Object.values(this.hass.entities).filter((e=>e.device_id===t)).map((t=>t.entity_id)):[]}getCardSize(){return 3}};xt.styles=a`
+        `}}_readNumber(t){var e;const i=null===(e=this.hass.states[t])||void 0===e?void 0:e.state,s=parseFloat(i);return isNaN(s)?NaN:s}_entitiesForDevice(t){var e;return(null===(e=this.hass)||void 0===e?void 0:e.entities)?Object.values(this.hass.entities).filter((e=>e.device_id===t)).map((t=>t.entity_id)):[]}getCardSize(){return 3}};At.styles=a`
     :host {
       display: block;
     }
@@ -315,5 +255,5 @@ const ht=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       flex: 1;
       text-align: center;
     }
-  `,t([ut({attribute:!1}),e("design:type",Object)],xt.prototype,"hass",void 0),t([ut({attribute:!1}),e("design:type",Object)],xt.prototype,"config",void 0),t([mt(),e("design:type",String)],xt.prototype,"_pitchEntity",void 0),t([mt(),e("design:type",String)],xt.prototype,"_rollEntity",void 0),xt=t([ht("smartvan-io-inclinometer")],xt),window.customCards&&window.customCards.push({type:"smartvan-io-inclinometer",name:"SmartVan.io Inclinometer",description:"Display-only card for SmartVan.io inclinometer modules. Pick a visual style; calibrate in the SmartVan.io add-on.",preview:!0});
+  `,t([ut({attribute:!1}),e("design:type",Object)],At.prototype,"hass",void 0),t([ut({attribute:!1}),e("design:type",Object)],At.prototype,"config",void 0),At=t([ht("smartvan-io-inclinometer")],At),window.customCards&&window.customCards.push({type:"smartvan-io-inclinometer",name:"SmartVan.io Inclinometer",description:"Display-only card for SmartVan.io inclinometer modules. Pick a visual style; calibrate in the SmartVan.io add-on.",preview:!0});
 //# sourceMappingURL=index.js.map
